@@ -1,0 +1,15 @@
+open table x;
+open table a;    # Relation a opened successfully
+open table b;    # Relation b opened successfully
+open table c;    # Relation c opened successfully
+open table d;    # Relation d opened successfully
+open table e;    # Relation e opened successfully
+open table f;    # Relation f opened successfully
+open table g;    # Relation g opened successfully
+open table h;    # Relation h opened successfully
+open table i;    # Relation i opened successfully
+open table j;    # Relation j opened successfully
+open table k;    # Error: Cache is full
+close table k;   # Error: Relation is not open
+close table j;   # Relation j closed successfully
+open table k;    # Relation k opened successfully

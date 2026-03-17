@@ -247,7 +247,7 @@ int BlockBuffer::setHeader(struct HeadInfo *head){
     // copy the fields of the HeadInfo pointed to by head (except reserved) to
     // the header of the block (pointed to by bufferHeader)
     //(hint: bufferHeader->numSlots = head->numSlots )
-    memcpy(bufferHeader,head,28);
+    memcpy(bufferHeader,head,HEADER_SIZE);
 
     // update dirty bit by calling StaticBuffer::setDirtyBit()
     // if setDirtyBit() failed, return the error code
@@ -392,3 +392,4 @@ void BlockBuffer::releaseBlock(){
         this->blockNum = INVALID_BLOCKNUM;
     }
 }
+

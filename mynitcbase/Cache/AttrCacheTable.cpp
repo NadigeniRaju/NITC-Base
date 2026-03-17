@@ -75,3 +75,35 @@ void AttrCacheTable::recordToAttrCatEntry(union Attribute record[ATTRCAT_NO_ATTR
        attrCatEntry->offset = record[ATTRCAT_OFFSET_INDEX].nVal;
        
 }
+
+int AttrCacheTable::resetSearchIndex(int relId, int attrOffset)
+{
+    if(attrCache[relId] == nullptr)
+    return E_RELNOTOPEN;
+    AttrCacheEntry *entry = attrCache[relId];
+
+        while(entry != NULL)
+        {
+            if(entry->attrCatEntry.offset == attrOffset)
+            {
+                entry->searchIndex.block = -1;
+                entry->searchIndex.index = -1;
+                return SUCCESS;
+            }
+            entry = entry->next;
+        }
+
+        return E_ATTRNOTEXIST;
+
+}
+
+void AttrCacheTable::attrCatEntryToRecord(AttrCatEntry *attrCatEntry, union Attribute record[ATTRCAT_NO_ATTRS]){
+    strcpy(record[ATTRCAT_REL_NAME_INDEX].sVal,attrCatEntry->relName);
+    strcpy(record[ATTRCAT_ATTR_NAME_INDEX].sVal,attrCatEntry->attrName);
+    record[ATTRCAT_ATTR_TYPE_INDEX].nVal = attrCatEntry->attrType;
+    record[ATTRCAT_PRIMARY_FLAG_INDEX].nVal = attrCatEntry->primaryFlag;
+    record[ATTRCAT_ROOT_BLOCK_INDEX].nVal = attrCatEntry->rootBlock;
+    record[ATTRCAT_OFFSET_INDEX].nVal = attrCatEntry->offset;
+   return ;
+}
+

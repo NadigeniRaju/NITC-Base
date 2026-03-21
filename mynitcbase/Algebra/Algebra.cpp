@@ -2,6 +2,7 @@
 #include<cstdlib>
 #include<stdio.h>
 #include <cstring>
+#include "../Buffer/counter.h"
 
 // will return if a string can be parsed as a floating point number
 bool isNumber(char *str) {
@@ -122,10 +123,11 @@ int Algebra::select(char srcRel[ATTR_SIZE], char targetRel[ATTR_SIZE], char attr
         first record.
     */
     RelCacheTable::resetSearchIndex(srcRelId);
-    //AttrCacheTable::resetSearchIndex(srcRelId,attr);
+    AttrCacheTable::resetSearchIndex(srcRelId,attr);
 
     // read every record that satisfies the condition by repeatedly calling
     // BlockAccess::search() until there are no more records to be read
+    count = 0;
     ret = BlockAccess::search(srcRelId,record,attr,attrVal,op);
     while (ret == SUCCESS) {
 
@@ -147,9 +149,10 @@ int Algebra::select(char srcRel[ATTR_SIZE], char targetRel[ATTR_SIZE], char attr
         ret = BlockAccess::search(srcRelId,record,attr,attrVal,op);
         
     }
-
+ 
     // Close the targetRel by calling closeRel() method of schema layer
     Schema::closeRel(targetRel);
+    printf("Number of Comparisions:%d\n",count);
 
   return SUCCESS;
 }

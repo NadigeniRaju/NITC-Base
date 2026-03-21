@@ -662,23 +662,24 @@ NOTE: This function will copy the result of the search to the `record` argument.
       based on the number of attributes in the relation.
 */
 int BlockAccess::search(int relId, Attribute *record, char attrName[ATTR_SIZE], Attribute attrVal, int op) {
-    // Declare a variable called recid to store the searched record
+
     RecId recId;
+    AttrCatEntry attrCatEntry;
+    int ret = AttrCacheTable::getAttrCatEntry(relId,attrName,&attrCatEntry);
+    if(ret != SUCCESS)
+    return ret;
 
-    /* search for the record id (recid) corresponding to the attribute with
-    attribute name attrName, with value attrval and satisfying the condition op
-    using linearSearch() */
-    recId = BlockAccess::linearSearch(relId,attrName,attrVal,op);
+    if(attrCatEntry.rootBlock == -1){
 
-    // if there's no record satisfying the given condition (recId = {-1, -1})
-    //    return E_NOTFOUND;
+             recId = BlockAccess::linearSearch(relId,attrName,attrVal,op);
+    }
+    else
+    {
+        recId = BPlusTree::bPlusSearch(relId,attrName,attrVal,op);
+    }
+
     if(recId.block == -1 && recId.slot == -1)
     return E_NOTFOUND;
-
-    /* Copy the record with record id (recId) to the record buffer (record)
-       For this Instantiate a RecBuffer class object using recId and
-       call the appropriate method to fetch the record
-    */
    RecBuffer recBuffer(recId.block);
    recBuffer.getRecord(record,recId.slot);
 

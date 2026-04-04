@@ -84,9 +84,9 @@ int RelCacheTable::setSearchIndex(int relId, RecId* searchIndex) {
 
 int RelCacheTable::resetSearchIndex(int relId) {
   // use setSearchIndex to set the search index to {-1, -1}
-  relCache[relId]->searchIndex.block = -1;
-  relCache[relId]->searchIndex.slot = -1;
-
+  if (relId < 0 || relId >= MAX_OPEN) return E_OUTOFBOUND;
+  if (relCache[relId] == nullptr) return E_RELNOTOPEN;
+  relCache[relId]->searchIndex = RecId{-1,-1};
   return SUCCESS;
 }
 

@@ -789,7 +789,7 @@ int BPlusTree::insertIntoInternal(int relId, char attrName[ATTR_SIZE], int intBl
     }
 
     // if either of the above calls returned an error (E_DISKFULL), then return that
-    // else return SUCCESS
+    return SUCCESS;
 }
 
 /* Distributes an array of index entries between an existing 

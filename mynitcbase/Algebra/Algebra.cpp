@@ -127,7 +127,7 @@ int Algebra::select(char srcRel[ATTR_SIZE], char targetRel[ATTR_SIZE], char attr
 
     // read every record that satisfies the condition by repeatedly calling
     // BlockAccess::search() until there are no more records to be read
-    //count = 0;
+    count = 0;
     ret = BlockAccess::search(srcRelId,record,attr,attrVal,op);
     while (ret == SUCCESS) {
 
@@ -152,7 +152,7 @@ int Algebra::select(char srcRel[ATTR_SIZE], char targetRel[ATTR_SIZE], char attr
  
     // Close the targetRel by calling closeRel() method of schema layer
     Schema::closeRel(targetRel);
-    //printf("Number of Comparisions:%d\n",count);
+    printf("Number of Comparisions:%d\n",count);
 
   return SUCCESS;
 }

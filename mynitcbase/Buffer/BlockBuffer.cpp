@@ -297,7 +297,7 @@ int RecBuffer::getSlotMap(unsigned char *slotMap) {
 int compareAttrs(union Attribute attr1, union Attribute attr2, int attrType) {
 
     double diff;
-    //cmp_count++;
+    count++;
     // if attrType == STRING
     //     diff = strcmp(attr1.sval, attr2.sval)
     if(attrType == STRING)
